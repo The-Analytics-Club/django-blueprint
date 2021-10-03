@@ -8,6 +8,8 @@ authors = ["thuwarakeshm <thuwarakeshm@stax.com>"]
 python = "^3.8"
 toml = "^0.10.2"
 python-dotenv = "^0.19.0"
+Django = "^3.2.7"
+psycopg2-binary = "^2.9.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
@@ -21,9 +23,8 @@ mkdocs-material = "^7.3.1"
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.poetry.scripts]
-start = "blueprint.main:app"
-
 [app]
-# all your app configuration go here
+# For django apps, you can manage config variables in settings.py. 
+# But if you prefer, you can do it here as well.
+# If so, be sure to uncomment the relavant lines in settings.py
 APP_NAME="blueprint"
