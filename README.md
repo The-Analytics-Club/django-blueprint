@@ -32,32 +32,38 @@ You are ready to rock.
 
 ## Usage
 
-Now you can program your application inside the blueprint directory. The following command will start your application.
+You can activate the Poetry virtualenv with the follwing command:
 
 ```bash
-poetry run start
+poetry shell
 ```
 
-The above command will run the `app` function in the `main.py` module. You can import your custom functions and hook it to the `app` function to run them.
+All the django management commands shall work from now.
 
-If not you can change the entry point to a different function by changing the `blueprint.main:app` configuration in the `pyproject.toml` file.
+```bash
+python manage.py runserver
+python manage.py makemigrations
+python manage.py migrate
+python manage.py collectstatic
+...
+```
 
 **To change the main module name**, you can rename the `blueprint` directory. But make sure you also rename the `name` in the `pyproject.toml` file.
 
-**You can add project configuration** straightly to the toml file's `[app]` section. You can read it in anywhere in your project by calling the following lines.
+Django apps usually store configuration values in the settings.py itself. But in certain cases, you may want to maintain is seperately. For instance, if you are running django along with celery, celery don't have access to settings.py.
+
+Hence, you can add your config values to the TOML file directly under the `app` section and access it anywhere in your app. The following lines will do the trick.
 
 ```python
 import toml
-APP_CONFIG = toml.load("pyproject.toml")["app"]
-
-app_name = APP_CONFIG['APP_NAME']
+APPCONFIG=toml.load('pyproject.toml')['app']
 ```
 
 Also you can add app secrets directly to the `.env` file and read it anywhere from your project with the help of Python's built in `os` module.
 
 ```python
 import os
-secret = os.environ['APP_SECRET']
+secret = os.getenv('APP_SECRET')
 ```
 
-This is possible because we've loaded the env file from our `main.py` module. If you are replacing this module, be sure to load it again.
+This is possible even on development server because we've loaded the env file in our `manage.py` module.
